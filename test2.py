@@ -58,34 +58,59 @@ def intro():
                         hs_count=hs_count+1
             f.close()
             hashtags_count[node_id] = hs_count
-            a = [1, 2, 3, 4, 5]
-            b = [9, 8, 2, 6, 5]
-            #print
-            with open(feat_file) as f:
-                feat = f.read().split()
-                j= 0
-                for i in feat:
-                #print feat[0]
-                #print feat[0]
-                #print set(zm) & set(feat)
-                #shared.
-                #d={"u1_1":{"u2_1": 134, "u2_2": 43}}
-#                    if(not feat_similarity2):
-                        #print i
-                        if(j <=0):
-                            #print node_id
-                            #print feat[0]
-                            feat_similarity2[str(node_id)]={feat[0]: sum([int(i) for i, j in zip(zm, feat) if i == j])}
-                            j=1
-                        if(j>0):
-                            #print node_id
-                            feat_similarity2[str(node_id)].update({feat[0]: sum([int(i) for i, j in zip(zm, feat) if i == j])})
-                #print feat_similarity2
-                #    feat_similarity[node_id][feat[0]] = sum([int(i) for i, j in zip(zm, feat) if i == j])
-            f.close()
+#            with open(feat_file) as f:
+#                feat = f.read().split()
+#                  j= 0
+#                for i in feat:
+#                        if(j <=0):
+#                            feat_similarity2[str(node_id)]={feat[0]: sum([int(i) for i, j in zip(zm, feat) if i == j])}
+#                            j=1
+#                        if(j>0):
+#                            feat_similarity2[str(node_id)].update({feat[0]: sum([int(i) for i, j in zip(zm, feat) if i == j])})
+#            f.close()
     print circles[18996905]
     print hashtags_count[18996905]
-    print  feat_similarity[18996905]
+
+    #print GR.GetInDeg();
+    #print  feat_similarity[18996905]
+
+
+# ProfileRank= w_e + f( w_p * Pi , w_a * Ai)
+# Pi = w1 * p1 + ... +wn * pn
+# Ai = wn+1 * a1 + ... + wn+m * am
+
+    wpf = 0.05 # number of friends
+    wpg = 0.05 # communities
+
+    wap = 0.03 # number of posts
+
+    w_e = 1
+    w_p = 1
+    w_a = 1
+
+    ProfileRank = {}
+    file =   "C:\\Users\\moni\\Documents\\agh\\IXsem\mgr\\erinaki_dane\\results.txt"
+    for NI in GR.Nodes():
+        circles_file = path + str(NI.GetId()) + ".circles"
+        if os.path.exists(circles_file):
+            #print "bla2"
+            ProfileRank[NI.GetId()] = ( w_e + w_p * (wpf * NI.GetInDeg() + wpg * circles[NI.GetId()]) + w_a * (wap * hashtags_count[NI.GetId()] ) )
+            #with open(file, 'r+') as f:
+
+
+    #ProfileRank[18996905]
+
+    from operator import itemgetter
+    asd = sorted(ProfileRank.items(), key=itemgetter(1))
+
+    print asd
+    print asd[-10:]
+
+    with open(file, 'r+') as f:
+        f.write(str(asd[-10:]))
+        f.write(str(ProfileRank))
+        #f.write(ProfileRank)
+
 
 if __name__ == '__main__':
     intro()
