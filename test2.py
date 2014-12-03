@@ -88,7 +88,7 @@ def intro():
 
 #Popularity
 
-    wpf = 0.05 # number of friends
+    wpf = 0.15 # number of friends
     wpg = 0.05 # communities
     wpc = 0.07 # comments on posts
     wpv = 0.06 # view on posts
@@ -105,7 +105,7 @@ def intro():
 
 #Activity
 
-    wap = 0.03 # number of posts
+    wap = 0.05 # number of posts
     waq = 0.015 # number of questions posted
     wasu = 0.04 # number status updates
     ###
@@ -133,19 +133,35 @@ def intro():
     sorted_ProfileRank = sorted(ProfileRank.items(), key=itemgetter(1))
     sorted_DegreeCentrality = sorted(DegreeCentrality.items(), key=itemgetter(1))
 
-    print sorted_ProfileRank
-    print sorted_ProfileRank[-10:]
+    #print sorted_ProfileRank
+    #print sorted_ProfileRank[-10:]
 
+    top = 25
     results_file =   "C:\\Users\\moni\\Documents\\agh\\IXsem\mgr\\erinaki_dane\\results.txt"
+    #with open(results_file, 'r+') as f:
+#        f.write(str(ProfileRank.__len__()))
+#        f.write(str("\n"))
+    #    f.write(str(sorted_DegreeCentrality[-top:]))
+    #    f.write(str("\n"))
+    #    f.write(str(sorted_ProfileRank[-top:]))
+#        f.write(str("\n"))
+#        f.write(str(ProfileRank))
     with open(results_file, 'r+') as f:
-        f.write(str(ProfileRank.__len__()))
-        f.write(str("\n"))
-        f.write(str(sorted_DegreeCentrality[-10:]))
-        f.write(str("\n"))
-        f.write(str(sorted_ProfileRank[-10:]))
-        f.write(str("\n"))
-        f.write(str(ProfileRank))
+        f.write("[")
+        for i in range (sorted_ProfileRank.__len__()-1,  sorted_ProfileRank.__len__()-top-1, -1):
+            f.write(str(sorted_ProfileRank[i]))
+            f.write(";")
+        f.write("]")
+        f.write("\n")
 
+        f.write("[")
+        for i in range (sorted_DegreeCentrality.__len__()-1,  sorted_DegreeCentrality.__len__()-top-1,-1):
+            f.write(str(sorted_DegreeCentrality[i]))
+            f.write(";")
+        f.write("]")
+        a=sorted_DegreeCentrality[-top:]
+        b=sorted_ProfileRank[-top:]
+    f.close()
 
 if __name__ == '__main__':
     intro()
